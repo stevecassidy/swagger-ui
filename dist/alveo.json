@@ -1,0 +1,78 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Alveo API",
+        "description": "The Virtual Laboratory for Human Communication Science",
+        "version": "1.0.0"
+    },
+    "host": "app.alveo.edu.au",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/version": {
+            "get": {
+                "summary": "API Version",
+                "description": "The version string for the API.",
+                "responses": {
+                    "200": {
+                        "description": "A JSON object",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Version"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/item_lists": {
+            "get": {
+                "summary": "Item Lists of the user",
+                "description": "Get the item list for this user.",
+                "responses": {
+                    "200": {
+                        "description": "A list of item list descriptions",
+                        "schema": {
+                            "type": "array",
+                            "items": "#/definitions/ItemInfo"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Version": {
+            "type": "object",
+            "properties": {
+                "API Version": {
+                    "type": "string",
+                    "description": "Version identifier for the API. This will  normally be a version number such as V2.1 that will be  incremented with each new release"
+                }
+            }
+        },
+        "ItemInfo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The item list name"
+                },
+                "item_list_url": {
+                    "type": "string",
+                    "description": "The URL to access the item list"
+                },
+                "num_items": {
+                    "type": "integer",
+                    "description": "The number of items in the item list"
+                }
+            }
+        }
+    }
+}
