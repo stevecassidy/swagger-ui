@@ -20,11 +20,17 @@
                 "description": "The version string for the API.",
                 "responses": {
                     "200": {
-                        "description": "A JSON object",
+                        "description": "The API Version information",
                         "schema": {
                             "type": "object",
                             "items": {
-                                "$ref": "#/definitions/Version"
+                                "type": "object",
+                                "properties": {
+                                    "API Version": {
+                                        "type": "string",
+                                        "description": "Version identifier for the API. This will  normally be a version number such as V2.1 that will be  incremented with each new release"
+                                    }
+                                }
                             }
                         }
                     }
@@ -35,12 +41,56 @@
             "get": {
                 "summary": "Item Lists of the user",
                 "description": "Get the item list for this user.",
+                "parameters": [
+                    {
+                        "name": "X-API-KEY",
+                        "in": "header",
+                        "description": "user API Key",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "A list of item list descriptions",
                         "schema": {
                             "type": "array",
-                            "items": "#/definitions/ItemInfo"
+                            "items": {
+                                "$ref": "#/definitions/ItemInfo"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create an item list",
+                "description": "Create a new item list containing a set of items",
+                "parameters": [
+                    {
+                        "name": "X-API-KEY",
+                        "in": "header",
+                        "description": "user API Key",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "itemlist",
+                        "in": "body",
+                        "description": "JSON specification of item list",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ItemList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of item list descriptions",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ItemInfo"
+                            }
                         }
                     }
                 }
@@ -48,15 +98,6 @@
         }
     },
     "definitions": {
-        "Version": {
-            "type": "object",
-            "properties": {
-                "API Version": {
-                    "type": "string",
-                    "description": "Version identifier for the API. This will  normally be a version number such as V2.1 that will be  incremented with each new release"
-                }
-            }
-        },
         "ItemInfo": {
             "type": "object",
             "properties": {
@@ -73,6 +114,28 @@
                     "description": "The number of items in the item list"
                 }
             }
+        },
+        "ItemList": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Item URL"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the item list to create - must be provided here or in the query string"
+                },
+                "num_results": {
+                    "type": "integer",
+                    "description": "size of the item list"
+                }
+
+            }
+
         }
     }
 }
